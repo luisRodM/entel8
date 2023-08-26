@@ -1,5 +1,5 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-app.js";
-import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-messaging.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";
+import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-messaging.js";
 import { saveToken } from "./firebase.js";
 
 // Your web app's Firebase configuration
@@ -15,10 +15,10 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// const saveToken = (token) => addDoc(collection(db, 'tokens'), {token})
-
 // Initialize FCM
 const messaging = getMessaging(app);
+
+let arrTokens = []
 
 const subscribeUser = () => {
     Notification.requestPermission().then(permission => {
