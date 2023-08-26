@@ -20,6 +20,8 @@ const messaging = getMessaging(app);
 
 const tokensContainer = document.getElementById('tokens-container')
 
+let arrayTokens = []
+
 window.addEventListener('DOMContentLoaded', async () => {
     onGetTokens((querySnapshot) => {
 
@@ -29,6 +31,16 @@ window.addEventListener('DOMContentLoaded', async () => {
             console.log(doc.data())
 
             const data = doc.data()
+
+            arrayTokens.push(data.token)
+
+            console.log(arrayTokens)
+
+            const removeDuplicates = (arr) => {
+                return [...new Set(arr)];
+            }
+
+            console.log(removeDuplicates(arrayTokens))
 
             html += /*html*/`
         <div>
