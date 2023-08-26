@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-firestore.js"
+import { getFirestore, collection, addDoc, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-firestore.js"
 
 const firebaseConfig = {
     apiKey: "AIzaSyDhkcsGl6ELkMaonR4pZtoD20A6YEx1Qo0",
@@ -17,6 +17,8 @@ const db = getFirestore()
 export const saveToken = (token) => addDoc(collection(db, 'tokens'), {token})
 
 export const getTokens = () => getDocs(collection(db, 'tokens'))
+
+export const onGetTokens = (callback) => onSnapshot(collection(db, 'tokens'), callback)
 
 // export const getTasks = () => getDocs(collection(db, 'tasks'))
 

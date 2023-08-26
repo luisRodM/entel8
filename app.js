@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";
 import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-messaging.js";
-import { saveToken } from "./firebase.js";
+import { saveToken, onGetTokens } from "./firebase.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -18,7 +18,29 @@ const app = initializeApp(firebaseConfig);
 // Initialize FCM
 const messaging = getMessaging(app);
 
-let arrTokens = []
+const tokensContainer = document.getElementById('tokens-container')
+
+window.addEventListener('DOMContentLoaded', async () => {
+    onGetTokens((querySnapshot) => {
+
+        let html = ''
+
+        querySnapshot.forEach(doc => {
+            console.log(doc.data())
+
+            const data = doc.data()
+
+            html += /*html*/`
+        <div>
+            <h3>${data.token}</h3>
+        </div>
+        `
+        });
+
+        tokensContainer.innerHTML = html
+        
+    })
+})
 
 const subscribeUser = () => {
     Notification.requestPermission().then(permission => {
