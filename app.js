@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-app.js";
 import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-messaging.js";
-import { getFirestore, collection, addDoc, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-firestore.js"
+import { saveToken } from "./firebase.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -15,9 +15,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-const db = getFirestore(app)
-
-const saveTask = (token) => addDoc(collection(db, 'tokens'), {token})
+// const saveToken = (token) => addDoc(collection(db, 'tokens'), {token})
 
 // Initialize FCM
 const messaging = getMessaging(app);
@@ -28,7 +26,7 @@ const subscribeUser = () => {
         if (permission == 'granted') {
             getToken(messaging, {vapidKey: "BG8FyHdrMX8Go8Tss9nPuUG4RT0qz3HCtxFuLbEDK3U8nqFiUBhIRi0tUDPTsH_beS_UJHUtXVp_G4ghxJeZEzY"}).then(currentToken => {
                 console.log(currentToken)
-                saveTask(currentToken)
+                saveToken(currentToken)
                 document.getElementById('tokenId').innerHTML = currentToken
             })
         }
