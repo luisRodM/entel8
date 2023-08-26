@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-app.js";
-import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-messaging.js";
+import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-messaging.js";
+import { getFirestore, collection, addDoc, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-firestore.js"
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -9,10 +10,14 @@ const firebaseConfig = {
     storageBucket: "entel8-ff820.appspot.com",
     messagingSenderId: "398001272297",
     appId: "1:398001272297:web:8c487ed9554bfe7d59c778"
-  };
+};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app)
+
+const saveTask = (token) => addDoc(collection(db, 'tokens'), {token})
 
 // Initialize FCM
 const messaging = getMessaging(app);
@@ -23,6 +28,7 @@ const subscribeUser = () => {
         if (permission == 'granted') {
             getToken(messaging, {vapidKey: "BG8FyHdrMX8Go8Tss9nPuUG4RT0qz3HCtxFuLbEDK3U8nqFiUBhIRi0tUDPTsH_beS_UJHUtXVp_G4ghxJeZEzY"}).then(currentToken => {
                 console.log(currentToken)
+                saveTask(currentToken)
                 document.getElementById('tokenId').innerHTML = currentToken
             })
         }
@@ -30,3 +36,4 @@ const subscribeUser = () => {
 }
 
 document.getElementById('btnSubscribe').addEventListener('click', subscribeUser)
+
