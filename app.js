@@ -19,30 +19,32 @@ const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
 
 let arrayTokens = []
+let arrayTokensUnic = []
 
-// window.addEventListener('DOMContentLoaded', async () => {
-//     onGetTokens((querySnapshot) => {
+window.addEventListener('DOMContentLoaded', async () => {
+    onGetTokens((querySnapshot) => {
 
-//         let html = ''
+        let html = ''
 
-//         querySnapshot.forEach(doc => {
-//             // console.log(doc.data())
+        querySnapshot.forEach(doc => {
+            // console.log(doc.data())
 
-//             const data = doc.data()
+            const data = doc.data()
 
-//             arrayTokens.push(data.token)
+            arrayTokens.push(data.token)
 
-//         });
+        });
 
-//         const removeDuplicates = (arr) => {
-//             return [...new Set(arr)];
-//         }
+        const removeDuplicates = (arr) => {
+            return [...new Set(arr)];
+        }
 
-//         const arrTokens = removeDuplicates(arrayTokens)
-//         console.log(arrTokens)
+        arrayTokensUnic = removeDuplicates(arrayTokens)
 
-//     })
-// })
+        console.log(arrayTokensUnic)
+    })
+})
+
 
 
 const subscribeUser = () => {
@@ -50,31 +52,43 @@ const subscribeUser = () => {
         console.log(permission)
         if (permission == 'granted') {
             getToken(messaging, { vapidKey: "BG8FyHdrMX8Go8Tss9nPuUG4RT0qz3HCtxFuLbEDK3U8nqFiUBhIRi0tUDPTsH_beS_UJHUtXVp_G4ghxJeZEzY" }).then(currentToken => {
-                onGetTokens((querySnapshot) => {
+                // onGetTokens((querySnapshot) => {
 
-                    querySnapshot.forEach(doc => {
+                //     querySnapshot.forEach(doc => {
 
-                        const data = doc.data()
+                //         const data = doc.data()
 
-                        if (!arrayTokens.includes(currentToken)) {
-                            console.log('no existe')
-                            arrayTokens.push(data.token)
-                        }
+                //         console.log(data)
 
-                        if (arrayTokens.includes(currentToken)) {
-                            console.log('no existe')
-                            saveToken(currentToken)
-                        } 
+                //         if (arrayTokens.includes(currentToken)) {
+                //             console.log('ya existe')
+                //         } else {
+                //             console.log('no existe')
+                //             arrayTokens.push(data.token)
+                //         }
 
-                    });
+                //         if (arrayTokens.includes(currentToken)) {
+                //             console.log('ya existe')
+                //         } else {
+                //             console.log('no existe')
+                //             saveToken(currentToken)
+                //         }
 
-                })
+                //     });
+
+                // })
                 // console.log(arrayTokens)
                 // if (arrayTokens.includes(currentToken)) {
                 //     console.log('ya existe')
                 // } else {
                 //     saveToken(currentToken)
                 // }
+                if (arrayTokensUnic.includes(currentToken)) {
+                    console.log('ya existe')
+                } else {
+                    console.log('no existe')
+                    saveToken(currentToken)
+                }
                 
                 document.getElementById('tokenId').innerHTML = currentToken
             })
