@@ -52,37 +52,7 @@ const subscribeUser = () => {
         console.log(permission)
         if (permission == 'granted') {
             getToken(messaging, { vapidKey: "BG8FyHdrMX8Go8Tss9nPuUG4RT0qz3HCtxFuLbEDK3U8nqFiUBhIRi0tUDPTsH_beS_UJHUtXVp_G4ghxJeZEzY" }).then(currentToken => {
-                // onGetTokens((querySnapshot) => {
-
-                //     querySnapshot.forEach(doc => {
-
-                //         const data = doc.data()
-
-                //         console.log(data)
-
-                //         if (arrayTokens.includes(currentToken)) {
-                //             console.log('ya existe')
-                //         } else {
-                //             console.log('no existe')
-                //             arrayTokens.push(data.token)
-                //         }
-
-                //         if (arrayTokens.includes(currentToken)) {
-                //             console.log('ya existe')
-                //         } else {
-                //             console.log('no existe')
-                //             saveToken(currentToken)
-                //         }
-
-                //     });
-
-                // })
-                // console.log(arrayTokens)
-                // if (arrayTokens.includes(currentToken)) {
-                //     console.log('ya existe')
-                // } else {
-                //     saveToken(currentToken)
-                // }
+                
                 if (arrayTokensUnic.includes(currentToken)) {
                     console.log('ya existe')
                 } else {
