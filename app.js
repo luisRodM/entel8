@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";
 import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-messaging.js";
-import { saveToken, onGetTokens } from "./firebase.js";
+import { saveToken, onGetTokens, getTokens } from "./firebase.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -18,49 +18,64 @@ const app = initializeApp(firebaseConfig);
 // Initialize FCM
 const messaging = getMessaging(app);
 
-const tokensContainer = document.getElementById('tokens-container')
-
 let arrayTokens = []
 
-window.addEventListener('DOMContentLoaded', async () => {
-    onGetTokens((querySnapshot) => {
+// window.addEventListener('DOMContentLoaded', async () => {
+//     onGetTokens((querySnapshot) => {
 
-        let html = ''
+//         let html = ''
 
-        querySnapshot.forEach(doc => {
-            console.log(doc.data())
+//         querySnapshot.forEach(doc => {
+//             // console.log(doc.data())
 
-            const data = doc.data()
+//             const data = doc.data()
 
-            arrayTokens.push(data.token)
+//             arrayTokens.push(data.token)
 
-            console.log(arrayTokens)
+//         });
 
-            const removeDuplicates = (arr) => {
-                return [...new Set(arr)];
-            }
+//         const removeDuplicates = (arr) => {
+//             return [...new Set(arr)];
+//         }
 
-            console.log(removeDuplicates(arrayTokens))
+//         const arrTokens = removeDuplicates(arrayTokens)
+//         console.log(arrTokens)
 
-            html += /*html*/`
-        <div>
-            <h3>${data.token}</h3>
-        </div>
-        `
-        });
+//     })
+// })
 
-        tokensContainer.innerHTML = html
-        
-    })
-})
 
 const subscribeUser = () => {
     Notification.requestPermission().then(permission => {
         console.log(permission)
         if (permission == 'granted') {
-            getToken(messaging, {vapidKey: "BG8FyHdrMX8Go8Tss9nPuUG4RT0qz3HCtxFuLbEDK3U8nqFiUBhIRi0tUDPTsH_beS_UJHUtXVp_G4ghxJeZEzY"}).then(currentToken => {
-                console.log(currentToken)
-                saveToken(currentToken)
+            getToken(messaging, { vapidKey: "BG8FyHdrMX8Go8Tss9nPuUG4RT0qz3HCtxFuLbEDK3U8nqFiUBhIRi0tUDPTsH_beS_UJHUtXVp_G4ghxJeZEzY" }).then(currentToken => {
+                onGetTokens((querySnapshot) => {
+
+                    querySnapshot.forEach(doc => {
+
+                        const data = doc.data()
+
+                        if (!arrayTokens.includes(currentToken)) {
+                            console.log('no existe')
+                            arrayTokens.push(data.token)
+                        }
+
+                        if (arrayTokens.includes(currentToken)) {
+                            console.log('no existe')
+                            saveToken(currentToken)
+                        } 
+
+                    });
+
+                })
+                // console.log(arrayTokens)
+                // if (arrayTokens.includes(currentToken)) {
+                //     console.log('ya existe')
+                // } else {
+                //     saveToken(currentToken)
+                // }
+                
                 document.getElementById('tokenId').innerHTML = currentToken
             })
         }
