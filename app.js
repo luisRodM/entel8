@@ -18,32 +18,32 @@ const app = initializeApp(firebaseConfig);
 // Initialize FCM
 const messaging = getMessaging(app);
 
-let arrayTokens = []
-let arrayTokensUnic = []
+// let arrayTokens = []
+// let arrayTokensUnic = []
 
-window.addEventListener('DOMContentLoaded', async () => {
-    onGetTokens((querySnapshot) => {
+// window.addEventListener('DOMContentLoaded', async () => {
+//     onGetTokens((querySnapshot) => {
 
-        let html = ''
+//         let html = ''
 
-        querySnapshot.forEach(doc => {
-            // console.log(doc.data())
+//         querySnapshot.forEach(doc => {
+//             // console.log(doc.data())
 
-            const data = doc.data()
+//             const data = doc.data()
 
-            arrayTokens.push(data.token)
+//             arrayTokens.push(data.token)
 
-        });
+//         });
 
-        const removeDuplicates = (arr) => {
-            return [...new Set(arr)];
-        }
+//         const removeDuplicates = (arr) => {
+//             return [...new Set(arr)];
+//         }
 
-        arrayTokensUnic = removeDuplicates(arrayTokens)
+//         arrayTokensUnic = removeDuplicates(arrayTokens)
 
-        console.log(arrayTokensUnic)
-    })
-})
+//         console.log(arrayTokensUnic)
+//     })
+// })
 
 
 
@@ -52,15 +52,15 @@ const subscribeUser = () => {
         console.log(permission)
         if (permission == 'granted') {
             getToken(messaging, { vapidKey: "BG8FyHdrMX8Go8Tss9nPuUG4RT0qz3HCtxFuLbEDK3U8nqFiUBhIRi0tUDPTsH_beS_UJHUtXVp_G4ghxJeZEzY" }).then(currentToken => {
+                console.log(currentToken)
+                // if (arrayTokensUnic.includes(currentToken)) {
+                //     console.log('ya existe')
+                // } else {
+                //     console.log('no existe')
+                //     saveToken(currentToken)
+                // }
                 
-                if (arrayTokensUnic.includes(currentToken)) {
-                    console.log('ya existe')
-                } else {
-                    console.log('no existe')
-                    saveToken(currentToken)
-                }
-                
-                document.getElementById('tokenId').innerHTML = currentToken
+                // document.getElementById('tokenId').innerHTML = currentToken
             })
         }
     })
